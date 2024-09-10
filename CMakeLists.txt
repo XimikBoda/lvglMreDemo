@@ -21,4 +21,7 @@ add_subdirectory(mreapi)
 add_subdirectory(vxp)
 add_subdirectory(run)
 
+set(BUILD_SHARED_LIBS FALSE)
+add_subdirectory(lvgl)
+
 add_subdirectory(main)
