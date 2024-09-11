@@ -9,8 +9,6 @@
  *      DEFINES
  *********************/
 
-#define TOUCHPAD_CIRCLE_BUF_SIZE (100)
-
 /**********************
  *      TYPEDEFS
  **********************/
@@ -166,7 +164,7 @@ static void keyboard_event(VMINT event, VMINT keycode) {
 	keyboard_event_loop_push(&keyboard_event_loop, ev);
 }
 
-static lv_indev_state_t keyboard_event_mapping(uint8_t event) {
+static lv_indev_state_t keyboard_event_mapping(int8_t event) {
 	switch (event) {
 	case VM_KEY_EVENT_DOWN:
 	case VM_KEY_EVENT_LONG_PRESS:
@@ -179,7 +177,7 @@ static lv_indev_state_t keyboard_event_mapping(uint8_t event) {
 	}
 }
 
-static uint32_t keyboard_key_mapping(uint8_t key) {
+static uint32_t keyboard_key_mapping(int8_t key) {
 	switch (key) {
 	case VM_KEY_UP:
 		return LV_KEY_UP;
