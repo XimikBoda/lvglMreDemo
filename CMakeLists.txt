@@ -4,7 +4,7 @@ project ("lvglMreDemo")
 
 set(APP_NAME "lvglMreDemo")
 set(DEVELOPER_NAME "XimikBoda")
-set(RAM "3000" CACHE STRING "Ram requirement (in kb)")
+set(RAM "1500" CACHE STRING "Ram requirement (in kb)")
 set(IMSI "1234567890" CACHE STRING "Imsi of first SIM-card")
 option(BACKGROUND "App can work background" OFF)
 
