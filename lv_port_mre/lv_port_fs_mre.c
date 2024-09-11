@@ -16,7 +16,8 @@
 
 typedef struct dir_t{
     VMINT handle;
-    struct vm_fileinfo_t prev;
+    struct vm_fileinfo_ext prev;
+    VMBOOL last;
 };
 
 /**********************
@@ -39,11 +40,13 @@ static lv_fs_res_t fs_dir_close(lv_fs_drv_t * drv, void * rddir_p);
 static void* mre_file_to_p(VMFILE file);
 static VMFILE* mre_file_from_p(void* file);
 
+static void fix_path(VMWSTR path);
+
 /**********************
  *  STATIC VARIABLES
  **********************/
 
-const static VMWCHAR find_suf[4] = { '*', '.', '*', '\0'};
+const static VMWCHAR find_suf[5] = { '\\', '*', '.', '*', '\0'};
 
 /**********************
  * GLOBAL PROTOTYPES
@@ -72,7 +75,7 @@ void lv_port_fs_init(void)
     lv_fs_drv_init(&fs_drv);
 
     /*Set up fields...*/
-    fs_drv.letter = 'E';
+    fs_drv.letter = 'e';
     fs_drv.open_cb = fs_open;
     fs_drv.close_cb = fs_close;
     fs_drv.read_cb = fs_read;
@@ -111,6 +114,8 @@ static void * fs_open(lv_fs_drv_t * drv, const char * path, lv_fs_mode_t mode)
     VMWCHAR wpath[MAX_APP_NAME_LEN];
 
     vm_ascii_to_ucs2(wpath, MAX_APP_NAME_LEN*2, path);
+
+    fix_path(wpath); // change / to \
 
     VMUINT mre_mode = 0;
 
@@ -245,12 +250,17 @@ static void * fs_dir_open(lv_fs_drv_t * drv, const char * path)
 {
     struct dir_t *dir = (struct dir_t*)vm_malloc(sizeof(struct dir_t));
 
-    VMWCHAR wpath[MAX_APP_NAME_LEN];
+    VMWCHAR wpath[MAX_APP_NAME_LEN] = { drv->letter, ':'};
+    wchar_t* tmp = (wchar_t*)wpath;
 
-    vm_ascii_to_ucs2(wpath, MAX_APP_NAME_LEN * 2, path);
+    vm_ascii_to_ucs2(wpath + 2, MAX_APP_NAME_LEN * 2 - 4, path);
     vm_wstrcat(wpath, find_suf);
 
-    dir->handle = vm_find_first(wpath, &dir->prev);
+    fix_path(wpath);
+
+    dir->handle = vm_find_first_ext(wpath, &dir->prev);
+    dir->last = VM_FALSE;
+
     
     if (dir->handle < 0) {
         vm_free(dir);
@@ -273,12 +283,19 @@ static lv_fs_res_t fs_dir_read(lv_fs_drv_t * drv, void * rddir_p, char * fn, uin
 {
     struct dir_t* dir = rddir_p;
 
-    if (dir->prev.filename[0] == 0)
+    if (dir->last)
         return LV_FS_RES_UNKNOWN;
 
-    vm_ucs2_to_ascii(fn, fn_len, dir->prev.filename);
+    if (dir->prev.attributes & VM_FS_ATTR_DIR) {
+        fn[0] = '/';
+        fn++, fn_len--;
+    }
 
-    vm_find_next(dir->handle, &dir->prev);
+    vm_ucs2_to_ascii(fn, fn_len, dir->prev.filefullname);
+
+    VMINT res = vm_find_next_ext(dir->handle, &dir->prev);
+    if (res < 0)
+        dir->last = VM_TRUE;
 
     return LV_FS_RES_OK;
 }
@@ -306,4 +323,10 @@ static void* mre_file_to_p(VMFILE file) {
 
 static VMFILE* mre_file_from_p(void* file) {
     return ((VMFILE)file) - 1;
+}
+
+static void fix_path(VMWSTR path) {
+    for(; *path; ++path)
+        if (*path == '/')
+            *path = '\\';
 }

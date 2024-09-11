@@ -29,7 +29,9 @@ void vm_main(void) {
 	lv_port_indev_init();
 	lv_port_fs_init();
 
-	lv_demo_music();
+	lv_obj_t* file_explorer = lv_file_explorer_create(lv_screen_active());
+	lv_file_explorer_open_dir(file_explorer, "e:/Applications");
+	//lv_demo_music();
 	
 	vm_reg_sysevt_callback(handle_sysevt);
 
