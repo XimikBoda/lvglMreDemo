@@ -5,6 +5,7 @@ set(PROJECT_NAME "lv_port_mre")
 add_library(${PROJECT_NAME} STATIC 
     lv_port_disp_mre.c lv_port_disp_mre.h
     lv_port_indev_mre.c lv_port_indev_mre.h
+    lv_port_fs_mre.c lv_port_fs_mre.h
     event_loop.c event_loop.h
 )
 

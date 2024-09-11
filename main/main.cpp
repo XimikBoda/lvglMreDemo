@@ -6,9 +6,13 @@
 #include "vm4res.h"
 #include "vmres.h"
 #include "vmtimer.h"
+
 #include "lvgl.h"
+
 #include "lv_port_disp_mre.h"
 #include "lv_port_indev_mre.h"
+#include "lv_port_fs_mre.h"
+
 #include <music/lv_demo_music.h>
 
 void handle_sysevt(VMINT message, VMINT param); // system events \
@@ -23,6 +27,8 @@ void vm_main(void) {
 	lv_tick_set_cb((lv_tick_get_cb_t)vm_get_tick_count);
 	lv_port_disp_init();
 	lv_port_indev_init();
+	lv_port_fs_init();
+
 	lv_demo_music();
 	
 	vm_reg_sysevt_callback(handle_sysevt);
@@ -43,6 +49,7 @@ void handle_sysevt(VMINT message, VMINT param) {
 	case VM_MSG_INACTIVE:
 		disp_disable_update();
 		break;	
+
 	case VM_MSG_QUIT:
 		break;	
 	}
