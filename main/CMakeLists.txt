@@ -4,4 +4,4 @@ set(PROJECT_NAME "main")
 
 add_library(${PROJECT_NAME} STATIC "main.cpp")
 
-target_link_libraries(${PROJECT_NAME} mreapi lvgl)
+target_link_libraries(${PROJECT_NAME} mreapi lvgl lv_port_mre lvgl_demos)

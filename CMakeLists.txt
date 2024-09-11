@@ -4,7 +4,7 @@ project ("lvglMreDemo")
 
 set(APP_NAME "lvglMreDemo")
 set(DEVELOPER_NAME "XimikBoda")
-set(RAM "1500" CACHE STRING "Ram requirement (in kb)")
+set(RAM "3000" CACHE STRING "Ram requirement (in kb)")
 set(IMSI "1234567890" CACHE STRING "Imsi of first SIM-card")
 option(BACKGROUND "App can work background" OFF)
 
@@ -21,7 +21,11 @@ add_subdirectory(mreapi)
 add_subdirectory(vxp)
 add_subdirectory(run)
 
+add_definitions(-DLV_CONF_INCLUDE_SIMPLE)
+include_directories(./include)
 set(BUILD_SHARED_LIBS FALSE)
 add_subdirectory(lvgl)
+
+add_subdirectory(lv_port_mre)
 
 add_subdirectory(main)
