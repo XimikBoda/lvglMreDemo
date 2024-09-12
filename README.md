@@ -1,6 +1,6 @@
 # Port and demo of [LVGL](https://github.com/lvgl/lvgl) for MRE platform
 
-![image](extra/On_Nokia.png)![image](extra/On_MoDis.png)
+![image](extra/on_Nokia.png)![image](extra/on_MoDis.png)
 
 # How to compile, run, edit...
 
