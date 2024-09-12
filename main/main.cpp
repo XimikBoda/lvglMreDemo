@@ -7,6 +7,7 @@
 #include "vmres.h"
 #include "vmtimer.h"
 
+#include "lv_conf.h"
 #include "lvgl.h"
 
 #include "lv_port_disp_mre.h"
@@ -29,9 +30,11 @@ void vm_main(void) {
 	lv_port_indev_init();
 	lv_port_fs_init();
 
-	lv_obj_t* file_explorer = lv_file_explorer_create(lv_screen_active());
-	lv_file_explorer_open_dir(file_explorer, "e:/Applications");
-	//lv_demo_music();
+	///lv_obj_t* file_explorer = lv_file_explorer_create(lv_screen_active());
+	//lv_file_explorer_open_dir(file_explorer, "e:");
+	lv_demo_music();
+	//lv_demo_widgets();
+	//lv_demo_keypad_encoder();
 	
 	vm_reg_sysevt_callback(handle_sysevt);
 

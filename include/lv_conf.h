@@ -73,7 +73,7 @@
 
 /*Default Dot Per Inch. Used to initialize default sizes such as widgets sized, style paddings.
  *(Not so important, you can adjust it to modify default sizes and spaces)*/
-#define LV_DPI_DEF 130     /*[px/inch]*/
+#define LV_DPI_DEF 100     /*[px/inch]*/
 
 /*=================
  * OPERATING SYSTEM
@@ -880,7 +880,7 @@
     #endif
 
     /*Header to include for the profiler*/
-    #define LV_PROFILER_INCLUDE "lvgl/src/misc/lv_profiler_builtin.h"
+    #define LV_PROFILER_INCLUDE "src/misc/lv_profiler_builtin.h"
 
     /*Profiler start point function*/
     #define LV_PROFILER_BEGIN    LV_PROFILER_BUILTIN_BEGIN
@@ -936,7 +936,7 @@
     #define LV_FILE_EXPLORER_PATH_MAX_LEN        (260)
     /*Quick access bar, 1:use, 0:not use*/
     /*Requires: lv_list*/
-    #define LV_FILE_EXPLORER_QUICK_ACCESS        0
+    #define LV_FILE_EXPLORER_QUICK_ACCESS        1
 #endif
 
 /*==================
@@ -1064,10 +1064,10 @@
  ====================*/
 
 /*Show some widget. It might be required to increase `LV_MEM_SIZE` */
-#define LV_USE_DEMO_WIDGETS 0
+#define LV_USE_DEMO_WIDGETS 1
 
 /*Demonstrate the usage of encoder and keyboard*/
-#define LV_USE_DEMO_KEYPAD_AND_ENCODER 0
+#define LV_USE_DEMO_KEYPAD_AND_ENCODER 1
 
 /*Benchmark your system*/
 #define LV_USE_DEMO_BENCHMARK 0
@@ -1085,7 +1085,7 @@
     #define LV_DEMO_MUSIC_LANDSCAPE 0
     #define LV_DEMO_MUSIC_ROUND     0
     #define LV_DEMO_MUSIC_LARGE     0
-    #define LV_DEMO_MUSIC_AUTO_PLAY 0
+    #define LV_DEMO_MUSIC_AUTO_PLAY 1
 #endif
 
 /*Flex layout demo*/
