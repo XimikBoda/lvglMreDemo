@@ -28,8 +28,8 @@ static void disp_flush(lv_display_t* disp, const lv_area_t* area, uint8_t* px_ma
 
 static VMINT    screen_w = 0;
 static VMINT    screen_h = 0;
-static VMINT	layer_hdls[2];	// layer handle array. 
-static VMUINT8* layer_bufs[2];
+static VMINT	layer_hdls[1];	// layer handle array. 
+static VMUINT8* layer_bufs[1];
 
 /**********************
  *      MACROS
@@ -52,7 +52,7 @@ void lv_port_disp_init(void)
 	lv_display_t* disp = lv_display_create(screen_w, screen_h);
 	lv_display_set_flush_cb(disp, disp_flush);
 
-	lv_display_set_buffers(disp, layer_bufs[0], layer_bufs[1], screen_w * screen_h * 2, LV_DISPLAY_RENDER_MODE_DIRECT);
+	lv_display_set_buffers(disp, layer_bufs[0], 0, screen_w * screen_h * 2, LV_DISPLAY_RENDER_MODE_DIRECT);
 }
 
 /**********************
@@ -65,7 +65,7 @@ static void disp_init(void)
 	screen_w = vm_graphic_get_screen_width();
 	screen_h = vm_graphic_get_screen_height();
 
-	for (int i = 0; i < 2; ++i) {
+	for (int i = 0; i < 1; ++i) {
 		layer_hdls[i] = vm_graphic_create_layer(0, 0, screen_w, screen_h, -1);
 		layer_bufs[i] = vm_graphic_get_layer_buffer(layer_hdls[i]);
 	}
@@ -96,8 +96,8 @@ void disp_disable_update(void)
 static void disp_flush(lv_display_t* disp_drv, const lv_area_t* area, uint8_t* px_map)
 {
 	if (disp_flush_enabled) {
-		vm_graphic_set_clip(area->x1, area->y1, area->x2, area->y2);
-		vm_graphic_flush_layer(layer_hdls + (int)(px_map == layer_bufs[0]), 1);
+		//vm_graphic_set_clip(area->x1, area->y1, area->x2, area->y2);
+		vm_graphic_flush_layer(layer_hdls, 1);
 	}
 
 	/*IMPORTANT!!!
