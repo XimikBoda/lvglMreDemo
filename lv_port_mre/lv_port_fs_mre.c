@@ -111,7 +111,9 @@ static void fs_init(void)
  */
 static void * fs_open(lv_fs_drv_t * drv, const char * path, lv_fs_mode_t mode)
 {
-    VMWCHAR wpath[MAX_APP_NAME_LEN];
+    VMWCHAR wpath[MAX_APP_NAME_LEN] = { drv->letter, ':' };
+
+    vm_ascii_to_ucs2(wpath + 2, MAX_APP_NAME_LEN * 2 - 4, path);
 
     vm_ascii_to_ucs2(wpath, MAX_APP_NAME_LEN*2, path);
 
@@ -251,7 +253,6 @@ static void * fs_dir_open(lv_fs_drv_t * drv, const char * path)
     struct dir_t *dir = (struct dir_t*)vm_malloc(sizeof(struct dir_t));
 
     VMWCHAR wpath[MAX_APP_NAME_LEN] = { drv->letter, ':'};
-    wchar_t* tmp = (wchar_t*)wpath;
 
     vm_ascii_to_ucs2(wpath + 2, MAX_APP_NAME_LEN * 2 - 4, path);
     vm_wstrcat(wpath, find_suf);
