@@ -3,8 +3,6 @@ cmake_minimum_required (VERSION 3.8)
 set(PROJECT_NAME "resourses")
 
 set(RESOURSES_FILES
-      demo.png
-      demo.txt
 )
 
 add_custom_command( # repack triger 
